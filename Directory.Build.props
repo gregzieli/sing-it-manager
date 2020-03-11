@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Grzegorz Zieliński</Authors>
+    <Copyright>Copyright @ 2020 Grzegorz Zieliński</Copyright>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+</Project>
