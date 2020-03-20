@@ -1,4 +1,4 @@
-using SongReader.Models;
+using SingIt.Reader.Models;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;

@@ -1,7 +1,9 @@
-namespace SongReader.Models
+namespace SingIt.Reader.Models
 {
     public class Song
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string Artist { get; set; }
