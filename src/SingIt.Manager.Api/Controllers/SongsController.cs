@@ -1,5 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SingIt.Manager.Api.Models;
 using SingIt.Manager.Api.Services;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace SingIt.Manager.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class SongsController : ControllerBase
     {
         private readonly SongService _songService;
@@ -38,6 +38,7 @@ namespace SingIt.Manager.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(Song song)
         {
             var created = await _songService.CreateAsync(song);
@@ -50,7 +51,8 @@ namespace SingIt.Manager.Api.Controllers
             return Ok(song);
         }
 
-        [HttpPost]
+        [Authorize]
+        [HttpPost("Refresh")]
         public async Task<IActionResult> Refresh(IEnumerable<Song> songs, CancellationToken cancellationToken)
         {
             if (!songs.Any())

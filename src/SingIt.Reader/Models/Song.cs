@@ -1,4 +1,4 @@
-namespace SongReader.Models
+namespace SingIt.Reader.Models
 {
     public class Song
     {

@@ -1,7 +1,10 @@
 using Microsoft.Extensions.Configuration;
+using SingIt.Reader.Abstractions;
+using SingIt.Reader.Services;
 using SongReader.Services;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SongReader
@@ -16,6 +19,9 @@ namespace SongReader
                 .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
 
             var configuration = builder.Build();
+
+            var cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.Token.Register(() => Console.Error.WriteLine("Cancellation requested"));
 
             var path = configuration["InputDirectory"];
 
@@ -39,16 +45,11 @@ namespace SongReader
             {
                 var songs = new SongReaderService().Read(path);
 
-                var writer = new SongWriterService();
+                var writer = useDb
+                    ? new MongoWriter(configuration["ConnectionStrings:SingIt"])
+                    : new DiskWriter(configuration["OutputDirectory"]) as ISongWriter;
 
-                if (useDb)
-                {
-                    await writer.WriteToDatabase(songs, configuration["ServiceEndpoints:SongApi"]);
-                }
-                else
-                {
-                    await writer.WriteToDisk(songs, configuration["OutputDirectory"]);
-                }
+                await writer.WriteAsync(songs, cancellationTokenSource.Token);
             }
             catch (Exception e)
             {
