@@ -44,8 +44,6 @@ namespace SingIt.Reader.Services
             BsonClassMap.RegisterClassMap<Song>(initializer =>
             {
                 initializer.AutoMap();
-                initializer.MapIdMember(c => c.Id).SetIdGenerator(StringObjectIdGenerator.Instance);
-                initializer.IdMemberMap.SetSerializer(new StringSerializer(BsonType.ObjectId));
                 initializer.MapMember(c => c.Featured).SetIgnoreIfDefault(true);
             });
         }
