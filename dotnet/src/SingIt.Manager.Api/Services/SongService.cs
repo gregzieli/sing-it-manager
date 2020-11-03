@@ -29,7 +29,7 @@ namespace SingIt.Manager.Api.Services
         public async ValueTask<bool> CreateAsync(Song song)
         {
             var dbSong = await _managerContext.Songs.Find(x =>
-                x.Name == song.Name &&
+                x.Title == song.Title &&
                 x.Artist == song.Artist &&
                 x.Featured == song.Featured)
                 .FirstOrDefaultAsync();
